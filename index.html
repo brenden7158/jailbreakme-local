@@ -1,54 +1,956 @@
-<!doctype html>
-	<head>
-		<meta charset="utf-8" />
+<html>
+<head>
+<meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>JailbreakMe 3.0</title>
 
-		<link href="star.css" rel="stylesheet" type="text/css"/>
-		<link href="ui_normal.css" rel="stylesheet" type="text/css"/>
-		<link href="slider.css" rel="stylesheet" type="text/css"/>
+<!-- hey there, source code reader, who probably wants to ask if you can use this design on your homepage. -->
+<!-- while I don't have an issue with it, the code is SO horrible and awful that it's much, much easier to -->
+<!-- just make your own version of the design, which is completely cool with us: most of the design's from -->
+<!-- apple's app store app anyway. again: you can use the design (but not the content) where you want, but -->
+<!-- it's awful, so for your sake, make your own. also, see Cydia's Info.plist for another of these equal- -->
+<!-- line-length paragraphs, which inspired this one. it's actually easier than i thought it'd be to make! -->
+<!-- chpwn -->
 
-		<title>JailbreakMe</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-		
-	</head>
-	<body>
-		<div class="top_bar">
-			<h1>JailbreakMe</h1><h2 id="by">by comex (et al.)</h2>
-		</div>
-		
-		<div class="middle_wrapper">
-        <div class="bubble middle">
-        <div class="shadow"></div>
-        <div id="texts">
-        <div class="ttitle ttop">JailbreakMe</div>
-        <div class="ttext">
-            Jailbreak to get tweaks and apps Apple won't allow in the App Store.<br />
-            Free, legal, safe.</div><div class="ttext">
-            You should sync with iTunes before using this tool.
-        </div>
-        </div>
-        <!--<a href="faq.html" class="ttitle">More Info &raquo;</a>-->
-        <a href="faq.html" id="faqlink" class="tbottom">More Info &raquo;</a>
-        </div>
-        </div>
-		 
-		<div class="tool_bar">
-		<div id="unlock1"> 
-			<div id="unlock2"> 
-                <div id="slider" class="slider">
-                    <img class="arrow" src="data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20standalone%3D%22no%22%3F%3E%3C%21DOCTYPE%20svg%20PUBLIC%20%22-//W3C//DTD%20SVG%201.1//EN%22%20%22http%3A//www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd%22%3E%3Csvg%20width%3D%2231px%22%20height%3D%2224px%22%20version%3D%221.1%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22x%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%220%25%22%20y2%3D%22100%25%22%3E%3Cstop%20offset%3D%220%25%22%20style%3D%22stop-color%3A%239c9c9c%22/%3E%3Cstop%20offset%3D%2250%25%22%20style%3D%22stop-color%3A%23575757%22/%3E%3Cstop%20offset%3D%2250%25%22%20style%3D%22stop-color%3A%23000000%22/%3E%3Cstop%20offset%3D%22100%25%22%20style%3D%22stop-color%3A%23000000%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpolygon%20points%3D%221%2C8%2017%2C8%2017%2C2%2029%2C12.5%2017%2C23%2017%2C16%201%2C16%22%20style%3D%22stroke%3A%23d8d8d8%3Bstroke-width%3A1%3B%22/%3E%3Cpolygon%20points%3D%221%2C7%2017%2C7%2017%2C1%2029%2C11.5%2017%2C22%2017%2C15%201%2C15%22%20style%3D%22fill%3Aurl%28%23x%29%3B%20stroke%3A%23000000%3Bstroke-width%3A1%3B%22/%3E%3C/svg%3E">
-                </div>
-				<div id="unlock_text">slide to jailbreak</div> 
-			</div> 
-		</div>
-		</div>
-    <div id="pod">
-    <div id="podtext">
+<script type="text/javascript">
+// prepare google analytics
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-19159861-4']);
+_gaq.push(['_trackPageview']);
+</script>
+
+<style type="text/css">
+#browser {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    text-align: center;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+
+    /* helvetica neue is only availble on retina devices, but it's the system font there, so use it if we can */
+    font-family: Helvetica NeueUI, Helvetica Neue, Helvetica, Arial, Verdana, sans-serif;
+    color: black;
+}
+
+* {
+        ;
+}
+
+ul {
+    padding-left: 10px;
+}
+
+li {
+    padding-bottom: 15px;
+}
+
+.body {
+    color: black;
+}
+
+.body1 {
+    padding: 1px 10px;
+}
+
+/* links look better like this */
+.body a, .body1 a {
+    text-decoration: none;
+}
+
+#hax {
+    position: fixed;
+    opacity: 0.000001;
+    top: 0; left: 0;
+    width: 20px; height: 40px;
+    ;
+}
+
+.container {
+    overflow: hidden;
+}
+
+.button-container {
+    z-index: 10;
+    vertical-align: middle;
+}
+
+.button-wrapper {
+    padding-left: 6px;
+    padding-right: 6px;
+    width: 50px;
+}
+
+.button {
+    color: white;
+    font-weight: bold;
+    text-shadow: rgba(0, 0, 0, 0.60) 0 -1px 0;
+    font-size: 13px;
+    line-height: 16px; 
+    
+    ;
+    ;
+    ;
+    border-top: 1px solid #505050;
+    
+    padding-top: 1px;
+    height: 20px;
+    border-radius: 3px;
+    
+    width: 48px;
+    text-align: center;
+    
+    overflow: hidden;
+    position: relative;
+    margin-top: 7px;
+    opacity: 0.4;
+    
+    ;
+    ;
+    ;
+}
+
+.button-shadow {
+    position: absolute;
+    left: -25%;
+    top: -25%;
+    width: 150%;
+    height: 150%;
+}
+
+#bb-shadow {
+    position: absolute;
+}
+
+
+.button-disabled .button-shadow {
+    background-color: transparent !important;
+}
+
+.button-text {
+    position: absolute;
+    margin-top: 2px;
+    text-align: center;
+}
+
+.button-blue .button {
+    border-right: 1px solid #435c8d;
+    border-left: 1px solid #435c8d;
+    border-bottom: 1px solid #34528e;
+
+    background-image: ;
+    background-image: ;
+    background-image: ;
+}
+
+.button-green .button {
+    border-right: 1px solid #528e37;
+    border-left: 1px solid #528e37;
+    border-bottom: 1px solid #449222;
+    
+    background-image: ;
+
+    width: 68px;
+    margin-left: -10px;
+}
+
+.button-animated .button {
+    ;
+    ;
+    ;
+    ;
+}
+
+.button-squashed .button {
+    ;
+}
+
+.button-stretched .button {
+    ;
+}
+
+.cell {
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    background-color: #d5d5d5;
+    
+    padding: 0;
+    margin: 0;
+    /*position: relative;*/
+
+    height: 44px;
+    width: 100%;
+    display: block;
+    
+    text-decoration: none;
+
+    background-repeat: no-repeat;
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHdpZHRoPSI0NSIgaGVpZ2h0PSIyNiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBzdHlsZT0iZmlsbDpub25lO3N0cm9rZTojMDAwO3N0cm9rZS13aWR0aDo2O3N0cm9rZS1vcGFjaXR5OjAuNTsiIGQ9Ik0gNCwyIDE1LDEzIDQsMjQiLz48L3N2Zz4K);
+    background-size: 25px 13px;
+    background-position: center right;
+    
+    /* disable gray selected overlay thingy */
+    ;
+    
+    /* disable tap-and-hold menu */
+    ;
+}
+
+/* i love (read: hate) css */
+.cell + .cell {
+    margin-top: -1px;
+}
+
+.cell:active {
+    border-top: 1px solid #0099FF;
+    border-bottom: 1px solid #0066F2;
+
+    background-repeat: no-repeat, repeat-x;
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHdpZHRoPSI0NSIgaGVpZ2h0PSIyNiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBzdHlsZT0iZmlsbDpub25lO3N0cm9rZTojZmZmO3N0cm9rZS13aWR0aDo2IiBkPSJNIDQsMiAxNSwxMyA0LDI0Ii8%2BPC9zdmc%2BCg%3D%3D), ;
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHdpZHRoPSI0NSIgaGVpZ2h0PSIyNiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBzdHlsZT0iZmlsbDpub25lO3N0cm9rZTojZmZmO3N0cm9rZS13aWR0aDo2IiBkPSJNIDQsMiAxNSwxMyA0LDI0Ii8%2BPC9zdmc%2BCg%3D%3D), ;
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHdpZHRoPSI0NSIgaGVpZ2h0PSIyNiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBzdHlsZT0iZmlsbDpub25lO3N0cm9rZTojZmZmO3N0cm9rZS13aWR0aDo2IiBkPSJNIDQsMiAxNSwxMyA0LDI0Ii8%2BPC9zdmc%2BCg%3D%3D), ;
+    background-size: 25px 13px, 100% 44px;
+    background-position: center right, top left;
+}
+
+.cell:active + .cell {
+    /* so, there's this weird thing that our cells are put margin-top -1px */
+    /* so that they look good when multiple of them are in a row, however  */
+    /* that makes the selected cells look one pixel off when they are above*/
+    /* a deselected cell. so, set the color to the bottom color of the cell*/
+    /* above, which is hidden. if that makes any sense (probably does not) */
+    border-top: 1px solid #0066F2;
+}
+
+.cell span {
+    display: block;
+    position: absolute;
+    
+    line-height: 44px;
+
+    font-weight: bold;
+    font-size: 15px;
+    padding-left: 17px;
+    color: black;
+}
+
+.cell:active span {
+    color: white;
+}
+
+
+.navbar-label {
+    width: 100%;
+    position: absolute;
+    text-align: center;
+    line-height: 44px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+#back-taptarget {
+    top: 6px;
+    left: 8px;
+    height: 32px;
+    width: 52px;
+    position: absolute;
+    z-index: 9999999;
+    
+    /* disable gray selected overlay thingy */
+    ;
+    
+    /* disable tap-and-hold menu */
+    ;
+}
+
+#back-container {
+    height: 32px;
+    margin-top:  7px ;
+    ;
+    position: absolute;
+}
+
+
+#back-button {
+    line-height: 0px;
+    margin: 0;
+    padding: 0;
+    height: 0px;
+    color: white;
+
+    border-width: 15px 5px 15px 14px;
+    ;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAADoUlEQVRIDaWVWWgTURSGz2QmaWaytcZpmqRJJtskYkkISl2hguKCD74oKLhB0YLg%2FiCi6IOKKIIrIi6I%2BKIivumLIIpvWkUfxNYaKAglbdNsVGOWmfHc0ZTWmjSpFw4TJnO%2F%2B9%2F%2FnHsuBXWOQCDAmy2WY80t1vUsywZojQZK5bKUy2aeZ9K5k58%2BfXxDUFQ9vGg0utzR7n4ihsK8w%2B4Ak9kMGgQWCkUYGUnAl%2F6%2BYjw%2BcPh9b%2B81ZiYgwjpD4fnPYwsW6p3tbjAYDMAwDFAUBbIsg83WBjxv0%2Bn17FVJUT7QtYCiGHWGwsFXnYuXWgSvH3CrqjJFUYAEGQRuNJpAq9VBKpV0VAX6fD6LL%2Bh%2F0bloidftEUCr0wJiQFbkaUGMoxGcHktaq27Z4XTdiERjHU6XBz%2FWgiTJtTYDOl0TcAZTyz%2BBsdjCjeF58zcLgh%2Ba8EN5Bpi6EjpA0wxMA5LycAvCLX8gqHomSVJNZZP%2FJEmaBrQ72m8FQ%2BFmS8sc1bOyVJ48p%2BZvWZamAjuisW2%2BgLihDWuNojSAdVsT8PefZbRmQqEoik6Px3PFLfjQYD0moTEYgcs4ZwJobW275%2FUHm00mM0joBYlGR7ni4byOSLfXG1zJ83Z1q1KDW60srBCFnlDI63YJl50uNxavblbKKkBVIW%2BZc9cleA0GoxnPJp4EzNRsB6lXprWtVatnObVEpP%2BAERGkDunHjx4Nvnj5ai3HcUaNhgYFVc42RkeGQROJRF6vWdV1IpEYLhaKhYkMVzLdyFPGDsRgXythK3rQP%2FA1nBhOHrTOnYstqmoTqmmv6iH5AqE5hF7s7tkbzmYz60hHJiel0aFga5sobIR%2BGxoaOn7oyAk%2FTWtFlmPJUg0x0X6YIsNut3%2FYvmXTsdGRRLZQKKhZI5mrN5TKSanIQJXoq%2FL0c3%2FfuXcf%2B05beV5Dely9Y5pCMhGh%2BUMH9t1uMXP3c5k0kGNYXxnJeM9M8nCyCoSOotLT23bsFsbHc13kEpopSaQ7oTXZKR7%2BBf164fypI%2BOZ1Jf8j7x6y%2BEiVZ8%2F83nQM%2FTnqkACt9lsb3d37ziaTCbGyASSnH9By6USpMZGy6tWr7hS0%2FE%2FSXqGz%2F3X79w7YzRaPCxnwMuIJl6rTbhUKkIunZIFt%2F3mnp6ep3UVGqpi4%2FF419nzl3blct%2BXUTRtIzvAJKQZhhpYvXLFw53btz7BRQbrAv6erJDdiBh2DI68w1HASGMMICxDXvwCFKcoc%2BSp6BoAAAAASUVORK5CYII%3D) 15 5 15 14 stretch;
+    ;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAADoUlEQVRIDaWVWWgTURSGz2QmaWaytcZpmqRJJtskYkkISl2hguKCD74oKLhB0YLg%2FiCi6IOKKIIrIi6I%2BKIivumLIIpvWkUfxNYaKAglbdNsVGOWmfHc0ZTWmjSpFw4TJnO%2F%2B9%2F%2FnHsuBXWOQCDAmy2WY80t1vUsywZojQZK5bKUy2aeZ9K5k58%2BfXxDUFQ9vGg0utzR7n4ihsK8w%2B4Ak9kMGgQWCkUYGUnAl%2F6%2BYjw%2BcPh9b%2B81ZiYgwjpD4fnPYwsW6p3tbjAYDMAwDFAUBbIsg83WBjxv0%2Bn17FVJUT7QtYCiGHWGwsFXnYuXWgSvH3CrqjJFUYAEGQRuNJpAq9VBKpV0VAX6fD6LL%2Bh%2F0bloidftEUCr0wJiQFbkaUGMoxGcHktaq27Z4XTdiERjHU6XBz%2FWgiTJtTYDOl0TcAZTyz%2BBsdjCjeF58zcLgh%2Ba8EN5Bpi6EjpA0wxMA5LycAvCLX8gqHomSVJNZZP%2FJEmaBrQ72m8FQ%2BFmS8sc1bOyVJ48p%2BZvWZamAjuisW2%2BgLihDWuNojSAdVsT8PefZbRmQqEoik6Px3PFLfjQYD0moTEYgcs4ZwJobW275%2FUHm00mM0joBYlGR7ni4byOSLfXG1zJ83Z1q1KDW60srBCFnlDI63YJl50uNxavblbKKkBVIW%2BZc9cleA0GoxnPJp4EzNRsB6lXprWtVatnObVEpP%2BAERGkDunHjx4Nvnj5ai3HcUaNhgYFVc42RkeGQROJRF6vWdV1IpEYLhaKhYkMVzLdyFPGDsRgXythK3rQP%2FA1nBhOHrTOnYstqmoTqmmv6iH5AqE5hF7s7tkbzmYz60hHJiel0aFga5sobIR%2BGxoaOn7oyAk%2FTWtFlmPJUg0x0X6YIsNut3%2FYvmXTsdGRRLZQKKhZI5mrN5TKSanIQJXoq%2FL0c3%2FfuXcf%2B05beV5Dely9Y5pCMhGh%2BUMH9t1uMXP3c5k0kGNYXxnJeM9M8nCyCoSOotLT23bsFsbHc13kEpopSaQ7oTXZKR7%2BBf164fypI%2BOZ1Jf8j7x6y%2BEiVZ8%2F83nQM%2FTnqkACt9lsb3d37ziaTCbGyASSnH9By6USpMZGy6tWr7hS0%2FE%2FSXqGz%2F3X79w7YzRaPCxnwMuIJl6rTbhUKkIunZIFt%2F3mnp6ep3UVGqpi4%2FF419nzl3blct%2BXUTRtIzvAJKQZhhpYvXLFw53btz7BRQbrAv6erJDdiBh2DI68w1HASGMMICxDXvwCFKcoc%2BSp6BoAAAAASUVORK5CYII%3D) 15 5 15 14 stretch;
+    ;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAADoUlEQVRIDaWVWWgTURSGz2QmaWaytcZpmqRJJtskYkkISl2hguKCD74oKLhB0YLg%2FiCi6IOKKIIrIi6I%2BKIivumLIIpvWkUfxNYaKAglbdNsVGOWmfHc0ZTWmjSpFw4TJnO%2F%2B9%2F%2FnHsuBXWOQCDAmy2WY80t1vUsywZojQZK5bKUy2aeZ9K5k58%2BfXxDUFQ9vGg0utzR7n4ihsK8w%2B4Ak9kMGgQWCkUYGUnAl%2F6%2BYjw%2BcPh9b%2B81ZiYgwjpD4fnPYwsW6p3tbjAYDMAwDFAUBbIsg83WBjxv0%2Bn17FVJUT7QtYCiGHWGwsFXnYuXWgSvH3CrqjJFUYAEGQRuNJpAq9VBKpV0VAX6fD6LL%2Bh%2F0bloidftEUCr0wJiQFbkaUGMoxGcHktaq27Z4XTdiERjHU6XBz%2FWgiTJtTYDOl0TcAZTyz%2BBsdjCjeF58zcLgh%2Ba8EN5Bpi6EjpA0wxMA5LycAvCLX8gqHomSVJNZZP%2FJEmaBrQ72m8FQ%2BFmS8sc1bOyVJ48p%2BZvWZamAjuisW2%2BgLihDWuNojSAdVsT8PefZbRmQqEoik6Px3PFLfjQYD0moTEYgcs4ZwJobW275%2FUHm00mM0joBYlGR7ni4byOSLfXG1zJ83Z1q1KDW60srBCFnlDI63YJl50uNxavblbKKkBVIW%2BZc9cleA0GoxnPJp4EzNRsB6lXprWtVatnObVEpP%2BAERGkDunHjx4Nvnj5ai3HcUaNhgYFVc42RkeGQROJRF6vWdV1IpEYLhaKhYkMVzLdyFPGDsRgXythK3rQP%2FA1nBhOHrTOnYstqmoTqmmv6iH5AqE5hF7s7tkbzmYz60hHJiel0aFga5sobIR%2BGxoaOn7oyAk%2FTWtFlmPJUg0x0X6YIsNut3%2FYvmXTsdGRRLZQKKhZI5mrN5TKSanIQJXoq%2FL0c3%2FfuXcf%2B05beV5Dely9Y5pCMhGh%2BUMH9t1uMXP3c5k0kGNYXxnJeM9M8nCyCoSOotLT23bsFsbHc13kEpopSaQ7oTXZKR7%2BBf164fypI%2BOZ1Jf8j7x6y%2BEiVZ8%2F83nQM%2FTnqkACt9lsb3d37ziaTCbGyASSnH9By6USpMZGy6tWr7hS0%2FE%2FSXqGz%2F3X79w7YzRaPCxnwMuIJl6rTbhUKkIunZIFt%2F3mnp6ep3UVGqpi4%2FF419nzl3blct%2BXUTRtIzvAJKQZhhpYvXLFw53btz7BRQbrAv6erJDdiBh2DI68w1HASGMMICxDXvwCFKcoc%2BSp6BoAAAAASUVORK5CYII%3D) 15 5 15 14 stretch;
+}
+
+#back-shadow {
+    position: absolute;
+    width: 52px;
+    height: 30px;
+    left: -13px;
+    top: -15px;
+    ;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAADoUlEQVRIDaWVWWgTURSGz2QmaWaytcZpmqRJJtskYkkISl2hguKCD74oKLhB0YLg%2FiCi6IOKKIIrIi6I%2BKIivumLIIpvWkUfxNYaKAglbdNsVGOWmfHc0ZTWmjSpFw4TJnO%2F%2B9%2F%2FnHsuBXWOQCDAmy2WY80t1vUsywZojQZK5bKUy2aeZ9K5k58%2BfXxDUFQ9vGg0utzR7n4ihsK8w%2B4Ak9kMGgQWCkUYGUnAl%2F6%2BYjw%2BcPh9b%2B81ZiYgwjpD4fnPYwsW6p3tbjAYDMAwDFAUBbIsg83WBjxv0%2Bn17FVJUT7QtYCiGHWGwsFXnYuXWgSvH3CrqjJFUYAEGQRuNJpAq9VBKpV0VAX6fD6LL%2Bh%2F0bloidftEUCr0wJiQFbkaUGMoxGcHktaq27Z4XTdiERjHU6XBz%2FWgiTJtTYDOl0TcAZTyz%2BBsdjCjeF58zcLgh%2Ba8EN5Bpi6EjpA0wxMA5LycAvCLX8gqHomSVJNZZP%2FJEmaBrQ72m8FQ%2BFmS8sc1bOyVJ48p%2BZvWZamAjuisW2%2BgLihDWuNojSAdVsT8PefZbRmQqEoik6Px3PFLfjQYD0moTEYgcs4ZwJobW275%2FUHm00mM0joBYlGR7ni4byOSLfXG1zJ83Z1q1KDW60srBCFnlDI63YJl50uNxavblbKKkBVIW%2BZc9cleA0GoxnPJp4EzNRsB6lXprWtVatnObVEpP%2BAERGkDunHjx4Nvnj5ai3HcUaNhgYFVc42RkeGQROJRF6vWdV1IpEYLhaKhYkMVzLdyFPGDsRgXythK3rQP%2FA1nBhOHrTOnYstqmoTqmmv6iH5AqE5hF7s7tkbzmYz60hHJiel0aFga5sobIR%2BGxoaOn7oyAk%2FTWtFlmPJUg0x0X6YIsNut3%2FYvmXTsdGRRLZQKKhZI5mrN5TKSanIQJXoq%2FL0c3%2FfuXcf%2B05beV5Dely9Y5pCMhGh%2BUMH9t1uMXP3c5k0kGNYXxnJeM9M8nCyCoSOotLT23bsFsbHc13kEpopSaQ7oTXZKR7%2BBf164fypI%2BOZ1Jf8j7x6y%2BEiVZ8%2F83nQM%2FTnqkACt9lsb3d37ziaTCbGyASSnH9By6USpMZGy6tWr7hS0%2FE%2FSXqGz%2F3X79w7YzRaPCxnwMuIJl6rTbhUKkIunZIFt%2F3mnp6ep3UVGqpi4%2FF419nzl3blct%2BXUTRtIzvAJKQZhhpYvXLFw53btz7BRQbrAv6erJDdiBh2DI68w1HASGMMICxDXvwCFKcoc%2BSp6BoAAAAASUVORK5CYII%3D) 15 5 15 14 stretch;
+    ;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAADoUlEQVRIDaWVWWgTURSGz2QmaWaytcZpmqRJJtskYkkISl2hguKCD74oKLhB0YLg%2FiCi6IOKKIIrIi6I%2BKIivumLIIpvWkUfxNYaKAglbdNsVGOWmfHc0ZTWmjSpFw4TJnO%2F%2B9%2F%2FnHsuBXWOQCDAmy2WY80t1vUsywZojQZK5bKUy2aeZ9K5k58%2BfXxDUFQ9vGg0utzR7n4ihsK8w%2B4Ak9kMGgQWCkUYGUnAl%2F6%2BYjw%2BcPh9b%2B81ZiYgwjpD4fnPYwsW6p3tbjAYDMAwDFAUBbIsg83WBjxv0%2Bn17FVJUT7QtYCiGHWGwsFXnYuXWgSvH3CrqjJFUYAEGQRuNJpAq9VBKpV0VAX6fD6LL%2Bh%2F0bloidftEUCr0wJiQFbkaUGMoxGcHktaq27Z4XTdiERjHU6XBz%2FWgiTJtTYDOl0TcAZTyz%2BBsdjCjeF58zcLgh%2Ba8EN5Bpi6EjpA0wxMA5LycAvCLX8gqHomSVJNZZP%2FJEmaBrQ72m8FQ%2BFmS8sc1bOyVJ48p%2BZvWZamAjuisW2%2BgLihDWuNojSAdVsT8PefZbRmQqEoik6Px3PFLfjQYD0moTEYgcs4ZwJobW275%2FUHm00mM0joBYlGR7ni4byOSLfXG1zJ83Z1q1KDW60srBCFnlDI63YJl50uNxavblbKKkBVIW%2BZc9cleA0GoxnPJp4EzNRsB6lXprWtVatnObVEpP%2BAERGkDunHjx4Nvnj5ai3HcUaNhgYFVc42RkeGQROJRF6vWdV1IpEYLhaKhYkMVzLdyFPGDsRgXythK3rQP%2FA1nBhOHrTOnYstqmoTqmmv6iH5AqE5hF7s7tkbzmYz60hHJiel0aFga5sobIR%2BGxoaOn7oyAk%2FTWtFlmPJUg0x0X6YIsNut3%2FYvmXTsdGRRLZQKKhZI5mrN5TKSanIQJXoq%2FL0c3%2FfuXcf%2B05beV5Dely9Y5pCMhGh%2BUMH9t1uMXP3c5k0kGNYXxnJeM9M8nCyCoSOotLT23bsFsbHc13kEpopSaQ7oTXZKR7%2BBf164fypI%2BOZ1Jf8j7x6y%2BEiVZ8%2F83nQM%2FTnqkACt9lsb3d37ziaTCbGyASSnH9By6USpMZGy6tWr7hS0%2FE%2FSXqGz%2F3X79w7YzRaPCxnwMuIJl6rTbhUKkIunZIFt%2F3mnp6ep3UVGqpi4%2FF419nzl3blct%2BXUTRtIzvAJKQZhhpYvXLFw53btz7BRQbrAv6erJDdiBh2DI68w1HASGMMICxDXvwCFKcoc%2BSp6BoAAAAASUVORK5CYII%3D) 15 5 15 14 stretch;
+    ;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAADoUlEQVRIDaWVWWgTURSGz2QmaWaytcZpmqRJJtskYkkISl2hguKCD74oKLhB0YLg%2FiCi6IOKKIIrIi6I%2BKIivumLIIpvWkUfxNYaKAglbdNsVGOWmfHc0ZTWmjSpFw4TJnO%2F%2B9%2F%2FnHsuBXWOQCDAmy2WY80t1vUsywZojQZK5bKUy2aeZ9K5k58%2BfXxDUFQ9vGg0utzR7n4ihsK8w%2B4Ak9kMGgQWCkUYGUnAl%2F6%2BYjw%2BcPh9b%2B81ZiYgwjpD4fnPYwsW6p3tbjAYDMAwDFAUBbIsg83WBjxv0%2Bn17FVJUT7QtYCiGHWGwsFXnYuXWgSvH3CrqjJFUYAEGQRuNJpAq9VBKpV0VAX6fD6LL%2Bh%2F0bloidftEUCr0wJiQFbkaUGMoxGcHktaq27Z4XTdiERjHU6XBz%2FWgiTJtTYDOl0TcAZTyz%2BBsdjCjeF58zcLgh%2Ba8EN5Bpi6EjpA0wxMA5LycAvCLX8gqHomSVJNZZP%2FJEmaBrQ72m8FQ%2BFmS8sc1bOyVJ48p%2BZvWZamAjuisW2%2BgLihDWuNojSAdVsT8PefZbRmQqEoik6Px3PFLfjQYD0moTEYgcs4ZwJobW275%2FUHm00mM0joBYlGR7ni4byOSLfXG1zJ83Z1q1KDW60srBCFnlDI63YJl50uNxavblbKKkBVIW%2BZc9cleA0GoxnPJp4EzNRsB6lXprWtVatnObVEpP%2BAERGkDunHjx4Nvnj5ai3HcUaNhgYFVc42RkeGQROJRF6vWdV1IpEYLhaKhYkMVzLdyFPGDsRgXythK3rQP%2FA1nBhOHrTOnYstqmoTqmmv6iH5AqE5hF7s7tkbzmYz60hHJiel0aFga5sobIR%2BGxoaOn7oyAk%2FTWtFlmPJUg0x0X6YIsNut3%2FYvmXTsdGRRLZQKKhZI5mrN5TKSanIQJXoq%2FL0c3%2FfuXcf%2B05beV5Dely9Y5pCMhGh%2BUMH9t1uMXP3c5k0kGNYXxnJeM9M8nCyCoSOotLT23bsFsbHc13kEpopSaQ7oTXZKR7%2BBf164fypI%2BOZ1Jf8j7x6y%2BEiVZ8%2F83nQM%2FTnqkACt9lsb3d37ziaTCbGyASSnH9By6USpMZGy6tWr7hS0%2FE%2FSXqGz%2F3X79w7YzRaPCxnwMuIJl6rTbhUKkIunZIFt%2F3mnp6ep3UVGqpi4%2FF419nzl3blct%2BXUTRtIzvAJKQZhhpYvXLFw53btz7BRQbrAv6erJDdiBh2DI68w1HASGMMICxDXvwCFKcoc%2BSp6BoAAAAASUVORK5CYII%3D) 15 5 15 14 stretch;
+    
+    z-index: -1;
+}
+
+
+#back-text {
+    font-family: "Helvetica NeueUI", Helvetica Neue, Helvetica, Arial, Verdana, sans-serif;
+    text-shadow: #4e4e4e 0 -1px 0;
+    font-weight: bold;
+    font-size: 13px;
+    
+    padding-right: 3px;
+    margin-top: -1px;
+}
+
+#back-taptarget:active + #back-container #back-shadow {
+    background-color: rgba(0, 0, 0, 0.33);
+}
+
+.navbar-label, #back-button, .navigation-view-2-container, .navigation-view-1 {
+    ;
+    ;
+    ;
+    ; /* iOS uses exactly this */
+    ;
+    ;
+    ;
+    ;
+    ;
+}
+
+.freeze, .freeze .container, .freeze .navigation-view-1, .freeze .navigation-view-2-container, .freeze .navbar-label, .freeze #back-button {
+    ;
+    ;
+    ;
+}
+
+#first-label { 
+       ;
+       ;
+       ;
+       opacity: 1; 
+}
+.page2 #first-label {
+    ;
+    ;
+    ;
+    opacity: 0; 
+}
+
+#second-label {
+    ;
+    ;
+    ;
+    opacity: 0; 
+}
+.page2 #second-label {
+    ;
+    ;
+    ;
+    opacity: 1;
+}
+       
+#back-button {
+    ;
+    ;
+    ;
+    opacity: 0;
+}
+.page2 #back-button {
+    ;
+    ;
+    ;
+    opacity: 1;
+}
+
+
+.navigation-view-container {
+    position: relative;
+}
+
+.navigation-view-2-container {
+    background-color: #e1e1e1;    ;
+    ;
+    ;
+    position: absolute;
+    width: 100%;
+    top: 0; left: 0;
+}
+
+.page2 .navigation-view-2-container {
+    ;
+    ;
+    ;
+    position: relative;
+}
+    
+
+.navigation-view {
+    display: none;
+    padding: 5px;
+}
+
+.navigation-view-1 {
+    background-color: #e1e1e1;
+    ;
+    ;
+    ;
+    display: block;
+    position: relative;
+}
+
+.page2 .navigation-view-1 {
+    ;
+    ;
+    ;
+    position: absolute;
+    top: 44px; left: 0;
+}
+
+.container.moreinfo .navigation-view-moreinfo { display: block; }
+.container.success .navigation-view-success { display: block; }
+.container.donate .navigation-view-donate { display: block; }
+.container.failure .navigation-view-failure { display: block; }
+.container.legal .navigation-view-legal { display: block; }
+
+
+
+body {
+    background-color: #c8cacc;
+    background-repeat: no-repeat;
+    background-image: ;
+    background-image: ;
+    background-image: ;
+}
+
+.navbar-label, #back-button, .navigation-view-2-container, .navigation-view-1 {
+    border-radius: 15px;
+}
+
+.container {
+    ; ; ;    ;
+    ;
+    ;
+    ;
+    ;
+    ;
+    ;
+    ;
+    ;
+
+    border-radius: 15px;
+    margin-left: 10%;
+    margin-right: 10%;
+    position: static;
+    margin-top: 25%;
+    margin-bottom: 25%;
+}
+
+.container-rounded {
+    position:relative; 
+    background-color: #e1e1e1;
+    border-radius: 15px;
+}
+
+.container2 {
+    display: table;
+}
+
+.container3 {
+    display: table-row;
+}
+
+.header {
+    /*float: left;*/
+    position: relative;
+    width: 40%;
+    display: table-cell;
+
+    padding-top: 24px;
+    padding-bottom: 24px;
+    vertical-align: top;
+}
+
+.notheader {
+    /*float: right;*/
+    width: 59%;
+    border-left: solid 1px black;
+    display: table-cell;
+    vertical-align: top;
+
+    overflow: hidden;
+    border-bottom-right-radius: 15px;
+}
+
+
+.body-header {
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.body p {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.icon {
+    display: none;
+}
+
+.bigicon {
+    margin-bottom: 50px;
+    width: 190px;
+    height: 190px;
+    ;
+    ;
+    ;
+    background-size: 100% 100%;
+    margin-left: auto;
+    margin-right: auto;
+    background-image: url(saffron/holybejesus.png);
+
+    ;
+}
+
+.headertext {
+    width: 100%;
+}
+
+.cell {
+    border-top: solid 1px #b5b5b5;
+    border-bottom: solid 1px #b5b5b5;
+    background-color: #d5d5d5;
+}
+
+.title {
+    width: 100%;
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 0;
+    padding-bottom: 2px;
+}
+
+.subtitle {
+    font-size: 17px;
+    width: 100%;
+    margin: 0;
+    padding-bottom: 1px;
+    text-align: center;
+    color: #888888;
+}
+
+.navbar {
+    background-color: #7f94b0;
+    background-image: ;
+    background-image: ;
+    background-image: ;
+
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+
+    height: 43px;
+    margin: 0;
+    padding: 0;
+
+    border-bottom: solid 1px #797D92;
+
+    text-align: center;
+}
+
+.navbar-label {
+    color: #808080;
+    text-shadow: white 0 1px 0;
+}
+
+.button-holder {
+    position: relative;
+    width: 100%;
+}
+
+
+.button-wrapper {
+    position: absolute;
+    margin-top: 5px;
+    left: 50%;
+    margin-left: -31px;
+}
+
+@media only screen and (orientation: landscape) {
+    .container {
+        margin-top: 4%;
+        margin-bottom: 4%;
+        margin-left: 11%;
+        margin-right: 11%;
+    }
+}
+
+.question-answer {
+    margin: -5px;
+}
+
+.question-answer:nth-child(odd) {
+    background-color: #dadada;
+}
+
+#sdiv1 {
+    padding-top: 63px;
+    float: right;
+    width: 286px;
+}
+
+#simg {
+    padding-top: 10px;
+    margin-left: -10px;
+}
+
+#sdiv2 {
+    float: left;
+    width: 302px;
+    padding: 0 50px;
+}
+
+@media only screen and (orientation: portrait) {
+    #simg {
+        width: 340px;
+        height: 170px;
+        margin-top: -10px;
+    }
+    #sdiv1 {
+        width: 250px;
+        padding-top: 40px;
+    }
+    #sdiv2 {
+        width: 300px;
+        padding: 0 18px;
+    }
+
+}
+
+
+#sdiv2 {
+    width: 50%;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+#sdiv3 {
+    padding-right: 20px;
+    padding-bottom: 10px;
+}
+
+#sbigdiv {
+    background-color: #ded;
+    margin-top: 5px;
+    padding-top: 10px;
+}
+
+#sform {
+    padding: 10px 30px;
+}
+
+
+@media only screen and (orientation: landscape) {
+    margin-top: -13px;
+}
+
+.bodypad {
+    padding: 15px !important;
+}
+
+.question-answer {
+    padding: 10px 20px !important;
+}
+
+.question {
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-top: 10px;
+}
+
+.answer {
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.body {
+    font-size: 16px;
+    line-height: 19px;
+}
+
+</style>
+</head>
+<body>
+<div id="browser" style="position: fixed; top: 0; width: 100%; text-align: center; color: red">Protip: This looks better on WebKit or Firefox because we're too lazy to make an alternate website.</div><iframe id="hax" src="about:blank"></iframe>
+
+<div class="container">
+<div class="container-rounded">
+<div class="navbar-container">
+
+<div class="navbar">
+
+<div id="back-taptarget"></div>
+<div id="back-container">
+<div id="back-button">
+<div id="back-text">Back</div>
+<div id="back-shadow"></div>
+</div>
+</div>
+
+<div class="navbar-label" id="first-label">JailbreakMe</div>
+<div class="navbar-label" id="second-label">More Information</div>
+</div>
+</div>
+
+<div class="navigation-view-container">
+<div class="navigation-view-2-container">
+
+<div class="navigation-view navigation-view-moreinfo body">
+
+    <div class="question-answer">
+    <p class="question">What's a jailbreak?</p>
+    <p class="answer">Jailbreaking your device means installing a small program that removes restrictions in the default software. A jailbroken device can run apps and extensions (themes and tweaks) not approved by Apple. Jailbreaking does not slow down your device or use extra battery, and you can still use all your existing apps and buy new ones from the App Store. Jailbreaking simply enables you to do more with your device, nothing is taken away.</p>
+    </div>
+
+    <div class="question-answer">
+    <p class="question">Is JailbreakMe reversible?
+    <p class="answer">Yes! If you ever decide that you want to undo your jailbreak, connect your device to your computer, sync to make a full backup, press Restore in iTunes to wipe the device, and load your backup when prompted. All your App Store apps and the information in them will be preserved as usual.</p>
+    </div>
+    <div class="question-answer">
+    <p class="question">Can jailbreaking "brick" my device?</p>
+    <p class="answer">JailbreakMe provides a safe jailbreak that <em>cannot</em> put your device into an unusable state on its own. You will have full access to your jailbroken device, which gives you the power to modify it in ways that can put it in a state where you have to connect your device to iTunes and "restore" from a recently-synced backup. However, it should not be possible to render your device as permanently non-interactive as a brick, no matter what you choose to install.</p>
+    </div>
+    
+    <div class="question-answer">
+    <p class="question">Is this legal in the United States?</p>
+    <p class="answer">The Library of Congress approved a DMCA exemption in 2010 for jailbreaking cell phones, including the iPhone.</p>
+    </div>
+
+    
+    <div class="question-answer">
+    <p class="question">Can jailbreaking make my device less secure?</p>
+    <div class="answer">By itself, jailbreaking does not make you vulnerable.
+    <p>However, a common mistake for jailbreakers is to install OpenSSH but forget to change the passwords for root and mobile; this lets anyone log into your device over the Internet.  If you install OpenSSH, remember to change the password!</p>
     </div>
     </div>
-		<script type="text/javascript" src="sunspider-3dcube.js"></script>
-		<script type="text/javascript" src="detector.js"></script>
-		<script type="text/javascript" src="star.js"></script>
-		<script type="text/javascript" src="slider.js"></script>
 
-	</body>
+    <div class="question-answer">
+    <p class="question">How can I get help with jailbreaking?</p>
+    <p class="answer">If you need technical help with jailbreaking, you can try websites like <a href="http://jailbreakqa.com/">Jailbreak QA</a> and <a href="http://reddit.com/r/jailbreak">/r/jailbreak</a>.</p>
+    </div>
+    
+    <div class="question-answer">
+    <p class="question">Isn't there a risk hackers will make the exploit from this site into an iPhone virus?</p>
+    <div class="answer">
+When I released JailbreakMe 2.0 last year, some media reports focused on the security implications of releasing an exploit for unpatched vulnerabilities.  I am not sure myself what to think of this, but here are some facts:
+
+<p>▻ I did not create the vulnerabilities, only discover them.  Releasing an exploit demonstrates the flaw, making it easier for others to use it for malice, but they have long been present and exploitable.  Although releasing a jailbreak is certainly not the usual way to report a vulnerability, it still has the effect of making iOS more secure in the long run.</p>
+<p>▻ There's always a first time, but I think there's a good chance the security impact of these vulnerabilities will remain theoretical.  Despite JailbreakMe 2.0 being open sourced after an updated version of iOS was released, which would have made it relatively easy to modify the code into an attack, I didn't hear about any such modification except a proof of concept that showed up much later.  The only iPhone virus ever to attack the general public was a trivial one that affected jailbreakers who installed OpenSSH (not installed by default) but left it at the default password.</p>
+<p>▻ Along with the jailbreak, I am releasing a patch for the main vulnerability which anyone especially security conscious can install to render themselves immune; due to the nature of iOS, this patch can only be installed on a jailbroken device.   Until Apple releases an update, jailbreaking will ironically be the best way to remain secure.</p>
+<p>▻ Jailbreak apps and tweaks improve the mobile experience of millions of users, including many who were encourged to try it by the ease of use of web-based jailbreaks.  I'm not just doing this to be flashy: there is considerable benefit to writing this kind of tool rather than one that requires a connected computer.</p>
+    </div>
+    </div>
+</div>
+
+
+<div class="navigation-view navigation-view-donate bodypad">
+<div id="sbigdiv">
+<div id="sdiv2">
+<b>Donate!</b><br>
+I greatly appreciate donations; they help me pay for college at <a href="http://brown.edu">Brown</a>.
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="sform">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="CTALSP2HYEFKN">
+<input type="image" src="saffron/btn_donate_LG.gif" width="92" height="26" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!" onclick="_gaq.push(['_trackEvent', 'donate', donate']);">
+</form>
+</div>
+<div id="sdiv3">
+<b>Hire me?</b><br>
+I'm looking for a job or <br>internship where I can help make something really cool.  If you liked this site, why not <a href="mailto:comexk@gmail.com">send an email</a>?
+</div>
+</div>
+</div>
+
+
+<div class="navigation-view navigation-view-legal body bodypad">
+Various parts of saffron use code from the following:<br>
+<br>
+<a href="http://tukaani.org/xz/">XZ Utils</a><br>
+<br>
+<a href="http://www.zlib.net/">zlib</a><br>
+<br>
+<a href="http://www.openbsd.org/">OpenBSD</a>:<br>
+
+Copyright (c) 1991, 1993, 1994 The Regents of the University of California.  All rights reserved.<br>
+<br>
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+<ol>
+<li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of the University nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.</li>
+</ol>
+THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.<br>
+<br>
+<a href="http://www.feep.net/libtar/">libtar:</a><br>
+Copyright (c) 1998-2003  University of Illinois Board of Trustees<br>
+Copyright (c) 1998-2003  Mark D. Roth<br>
+All rights reserved.<br>
+<br>
+Developed by: Campus Information Technologies and Educational Services, University of Illinois at Urbana-Champaign<br>
+<br>
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the ``Software''), to deal with the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<br>
+<br>
+<ul>
+<li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimers.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimers in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the names of Campus Information Technologies and Educational Services, University of Illinois at Urbana-Champaign, nor the names of its contributors may be used to endorse or promote products derived from this Software without specific prior written permission.</li>
+</ul>
+<br>
+THE SOFTWARE IS PROVIDED ``AS IS'', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE CONTRIBUTORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS WITH THE SOFTWARE.
+<br>
+<br>
+<br>
+Thanks!
+</div>
+
+
+</div>
+</div>
+
+
+<div class="navigation-view-1">
+<div class="container2">
+<div class="container3">
+
+<div class="header">
+<img class="icon" src="saffron/icon@2x.png" width="59" height="59" />
+<div class="bigicon"></div>
+<div class="headertext">
+<h1 class="title">Cydia</h1>
+<h3 class="subtitle">Jay Freeman (saurik)</h3>
+<h3 class="subtitle">Jailbreak by comex.</h3>
+</div>
+
+<p style="color: red; font-weight: bold; text-align: center; margin-left: 30px; margin-right: 30px;">Come back on your iPhone, iPad, or iPod touch to use JailbreakMe.</p>
+
+</div>
+
+<div class="notheader">
+
+<div class="body1">
+<p style="color: red; font-weight: bold">This site is very old by now and does not support recent firmware, but you can still use it.</p>
+<p>JailbreakMe is the easiest way to free your device. Experience iOS as it could be, fully customizable, themeable, and with every tweak you could possibly imagine.</p>
+<p>Safe and completely reversible (just restore in iTunes), jailbreaking gives you control over the device you own. It only takes a minute or two, and as always, it's completely free.</p>
+<p>Please make an iTunes backup before jailbreaking.</p>
+</div>
+
+<a href="index.html#moreinfo" class="cell" ontouchstart="" ontouchend="return goto('moreinfo');">
+<span>More Information</span>
+</a>
+<a href="mailto:?Subject=Jailbreak%20your%20iOS%20device%21&Body=Jailbreak%20your%20iPhone%2C%20iPod%20touch%2C%20or%20iPad%20directly%20from%20the%20device%20itself%21%20JailbreakMe%20is%20the%20simplest%20way%20to%20free%20your%20device.%20Experience%20iOS%20as%20it%20could%20be%2C%20fully%20customizable%2C%20themeable%2C%20and%20with%20every%20tweak%20you%20could%20possibly%20imagine.%0A%0ACheck%20it%20out%20by%20visiting%20http%3A//jailbreakme.com/?ref=email%20on%20your%20iOS%20device." class="cell" ontouchstart="">
+<span>Tell a Friend</span>
+</a>
+
+<div class="body1">
+<p>This jailbreak was brought to you by <a href="http://twitter.com/comex">comex</a>, with the help of <a href="http://chpwn.com/">Grant Paul (chpwn)</a>, <a href="http://saurik.com/">Jay Freeman (saurik)</a>, <a href="http://twitter.com/MuscleNerd">MuscleNerd</a>, and many others. Please don't use this for piracy.  <a href="index.html#donate" onclick="return goto('donate');">Donate?</a></p>
+</div>
+
+<a href="index.html#legal" class="cell" ontouchstart="" ontouchend="return goto('legal')">
+<span>Legal</span>
+</a>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<script type="text/javascript">
+var timeout = null;
+var buttonState = 0;
+var pdf = null;
+var container = document.getElementsByClassName('container')[0];
+var currentPage;
+var small_device = false;
+
+function scrollo() {
+
+        var wt = '';
+    if(currentPage == 'moreinfo' || currentPage == 'legal') {
+        var mt = window.getComputedStyle(container, null).marginTop;
+        wt = 'translateY(' + (-parseInt(mt.substring(0, mt.length - 2)) + 30) + 'px)';
+    }
+    container.style.WebkitTransform = wt;
+    }
+function goto(where) {
+    var initial = typeof currentPage == 'undefined' ? ' freeze' : '';
+    var old = currentPage;
+    if(old == where) return false;
+    resetButton();
+    window.location.hash = '#' + (currentPage = where);
+
+    if (where) {
+        if(container.className.indexOf('page2') == -1) container.className = 'container ' + where + initial;
+        document.getElementById('second-label').innerHTML = {'moreinfo': small_device ? 'More Info' : 'More Information', 'legal': small_device ? 'Legal Info' : 'Legal Information', 'share': 'Share', 'success': (small_device ? '&nbsp;&nbsp;&nbsp;' : '') + 'Thanks for Playing!', 'failure': 'Oops...', 'donate': 'Donate'}[where];
+        setTimeout(function() {
+            container.className = 'container page2 ' + where + initial;
+        }, 0);
+    } else {
+        container.className = 'container ' + old + initial;
+    }
+    setTimeout(scrollo, initial ? 0 : 450);
+
+    return false;
+}
+
+var currentTime = new Date().getTime();
+var old_orientation = window.orientation;
+(window.onorientationchange = function(e) {
+    var newTime = new Date().getTime();
+    if(buttonState == 3 && newTime - currentTime > 2000) {
+        _gaq.push(['_trackEvent', 'success', 'success']);
+        // discontinuity
+        goto('success');
+    }
+    currentTime = newTime;
+    if (old_orientation != window.orientation)
+        scrollo();
+    old_orientation = window.orientation;
+    if(window.location.hash != currentPage) {
+        goto(window.location.hash.substring(1));
+    }
+})();
+
+setInterval(window.onorientationchange, 50);
+
+    
+var bbs = document.getElementById('back-taptarget');
+bbs.onmouseup = bbs.ontouchend = function() {
+    goto('');
+}
+
+function resetButton() {}
+
+</script>
+
+<script type="text/javascript">
+(function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+</body>
 </html>
